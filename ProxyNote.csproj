@@ -1,0 +1,106 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
+    <OutputType>Library</OutputType>
+    <LangVersion>8</LangVersion>
+    <Nullable>disable</Nullable>
+    <RootNamespace>ProxyNote</RootNamespace>
+    <AssemblyName>ProxyNote</AssemblyName>
+    <Version>0.17.1</Version>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <BeatSaberVersion Condition="'$(BeatSaberVersion)' == ''">1.40.8</BeatSaberVersion>
+    <BeatSaberInstancesRoot Condition="'$(BeatSaberInstancesRoot)' == ''">D:\Programs\BSManager\BSInstances</BeatSaberInstancesRoot>
+    <BeatSaberDir Condition="'$(BeatSaberDir)' == ''">$(BeatSaberInstancesRoot)\$(BeatSaberVersion)</BeatSaberDir>
+    <OutputPath>bin\$(BeatSaberVersion)\$(Configuration)\</OutputPath>
+    <DebugSymbols Condition="'$(Configuration)' == 'Debug'">true</DebugSymbols>
+    <DebugType Condition="'$(Configuration)' == 'Debug'">portable</DebugType>
+    <DebugType Condition="'$(Configuration)' == 'Release'">none</DebugType>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <ManifestFile Condition="'$(ManifestFile)' == ''">manifest.$(BeatSaberVersion).json</ManifestFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Tests\**\*.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="0Harmony">
+      <HintPath>$(BeatSaberDir)\Libs\0Harmony.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="BeatmapCore">
+      <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\BeatmapCore.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="BGLib.DotnetExtension">
+      <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\BGLib.DotnetExtension.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="BSML">
+      <HintPath>$(BeatSaberDir)\Plugins\BSML.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="CameraUtils">
+      <HintPath>$(BeatSaberDir)\Plugins\CameraUtils.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="GameplayCore">
+      <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\GameplayCore.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Main">
+      <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\Main.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="IPA.Loader">
+      <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\IPA.Loader.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine">
+      <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\UnityEngine.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.PhysicsModule">
+      <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\UnityEngine.PhysicsModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="$(ManifestFile)" LogicalName="$(AssemblyName).manifest.json" />
+    <EmbeddedResource Include="Views\settings.bsml" />
+  </ItemGroup>
+
+  <Target Name="ValidateBeatSaberReferences" BeforeTargets="ResolveReferences">
+    <Error Condition="!Exists('$(ManifestFile)')"
+           Text="No exact-version manifest exists at '$(ManifestFile)'. Add manifest.$(BeatSaberVersion).json before building this target." />
+    <Error Condition="!Exists('$(BeatSaberDir)\Beat Saber.exe')"
+           Text="Beat Saber was not found at '$(BeatSaberDir)'." />
+    <Error Condition="!Exists('$(BeatSaberDir)\Beat Saber_Data\Managed\Main.dll')"
+           Text="Main.dll was not found under '$(BeatSaberDir)'." />
+    <Error Condition="!Exists('$(BeatSaberDir)\Beat Saber_Data\Managed\IPA.Loader.dll')"
+           Text="BSIPA is not installed for Beat Saber $(BeatSaberVersion). Install BSIPA before building this target." />
+    <Error Condition="!Exists('$(BeatSaberDir)\Libs\0Harmony.dll')"
+           Text="Harmony was not found. Install BSIPA for Beat Saber $(BeatSaberVersion)." />
+    <Error Condition="!Exists('$(BeatSaberDir)\Plugins\BSML.dll')"
+           Text="BSML was not found. Install BeatSaberMarkupLanguage for Beat Saber $(BeatSaberVersion)." />
+    <Error Condition="!Exists('$(BeatSaberDir)\Plugins\CameraUtils.dll')"
+           Text="CameraUtils was not found. Install CameraUtils for Beat Saber $(BeatSaberVersion)." />
+  </Target>
+
+  <Target Name="InstallPlugin" AfterTargets="Build" Condition="'$(InstallToGame)' == 'true'">
+    <MakeDir Directories="$(BeatSaberDir)\Plugins" />
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(BeatSaberDir)\Plugins" />
+    <Copy Condition="Exists('$(TargetDir)$(AssemblyName).pdb')"
+          SourceFiles="$(TargetDir)$(AssemblyName).pdb"
+          DestinationFolder="$(BeatSaberDir)\Plugins" />
+  </Target>
+</Project>

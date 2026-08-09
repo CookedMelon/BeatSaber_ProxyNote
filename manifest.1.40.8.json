@@ -1,0 +1,17 @@
+{
+  "id": "ProxyNote",
+  "name": "ProxyNote",
+  "author": "Local development",
+  "version": "0.17.1",
+  "description": "Creates collision-free visual proxy notes while preserving original hitboxes, depth timing, and scoring.",
+  "gameVersion": "1.40.8",
+  "dependsOn": {
+    "BSIPA": "^4.3.5",
+    "BeatSaberMarkupLanguage": "^1.12.5",
+    "CameraUtils": "^1.0.7"
+  },
+  "loadAfter": [
+    "JDFixer",
+    "NoteCutGuide"
+  ]
+}

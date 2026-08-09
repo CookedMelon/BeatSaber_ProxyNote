@@ -1,0 +1,107 @@
+<bg xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="https://monkeymanboy.github.io/BSML-Docs/ https://raw.githubusercontent.com/monkeymanboy/BSML-Docs/gh-pages/BSMLSchema.xsd">
+    <settings-container child-control-width="true" child-expand-width="true" size-delta-y="-12">
+        <vertical vertical-fit="PreferredSize" preferred-height="14">
+            <horizontal vertical-fit="PreferredSize" preferred-height="7" preferred-width="60">
+                <text
+                    text="~description"
+                    align="Center"
+                    word-wrapping="true"
+                    font-size="2.5"
+                    font-color="#b8e6ffff"
+                    preferred-width="58"
+                    preferred-height="7" />
+            </horizontal>
+            <horizontal vertical-fit="PreferredSize" preferred-height="7" preferred-width="60">
+                <button
+                    text="~language-button-label"
+                    on-click="toggle-language"
+                    preferred-width="14"
+                    preferred-height="6" />
+                <button
+                    text="~reset-label"
+                    on-click="reset-settings"
+                    preferred-width="14"
+                    preferred-height="6" />
+            </horizontal>
+        </vertical>
+        <checkbox-setting
+            value="enabled"
+            bind-value="true"
+            on-change="set-enabled"
+            apply-on-change="true"
+            text="~enabled-label" />
+        <slider-setting
+            value="jump-lead-distance"
+            bind-value="true"
+            on-change="set-jump-lead-distance"
+            apply-on-change="true"
+            show-buttons="true"
+            text="~jump-lead-label"
+            min="0"
+            max="5"
+            increment="0.25" />
+        <slider-setting
+            value="note-rotation-coefficient"
+            bind-value="true"
+            on-change="set-note-rotation-coefficient"
+            apply-on-change="true"
+            show-buttons="true"
+            min="0"
+            max="1"
+            increment="0.05"
+            text="~note-rotation-label" />
+        <checkbox-setting
+            value="enable-note-position-swaps"
+            bind-value="true"
+            on-change="set-enable-note-position-swaps"
+            apply-on-change="true"
+            text="~note-position-swaps-label" />
+        <checkbox-setting
+            value="guide-enabled"
+            bind-value="true"
+            on-change="set-guide-enabled"
+            apply-on-change="true"
+            text="~guide-enabled-label" />
+        <checkbox-setting
+            value="show-proxy-on-desktop"
+            bind-value="true"
+            on-change="set-show-proxy-on-desktop"
+            apply-on-change="true"
+            text="~desktop-label" />
+        <checkbox-setting
+            value="suppress-debris"
+            bind-value="true"
+            on-change="set-suppress-debris"
+            apply-on-change="true"
+            text="~debris-label" />
+        <checkbox-setting
+            value="debug-mode"
+            bind-value="true"
+            on-change="set-debug-mode"
+            apply-on-change="true"
+            text="~debug-label" />
+        <vertical active="~debug-mode" vertical-fit="PreferredSize" preferred-height="14">
+            <slider-setting
+                value="original-opacity"
+                bind-value="true"
+                on-change="set-original-opacity"
+                apply-on-change="true"
+                show-buttons="true"
+                text="~original-opacity-label"
+                min="0"
+                max="1"
+                increment="0.05" />
+            <slider-setting
+                value="proxy-opacity"
+                bind-value="true"
+                on-change="set-proxy-opacity"
+                apply-on-change="true"
+                show-buttons="true"
+                text="~proxy-opacity-label"
+                min="0"
+                max="1"
+                increment="0.05" />
+        </vertical>
+    </settings-container>
+</bg>
